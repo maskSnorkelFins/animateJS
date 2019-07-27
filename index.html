@@ -1,0 +1,102 @@
+<!DOCTYPE HTML>
+<html lang="en-us">
+<head>
+<script src="animate.js"></script>
+<style>
+#grid {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  background-color: #ffffff;
+  opacity: .25;
+}
+.elems {
+    height: 50px;
+    width: 50px;
+    position: absolute;
+    top: 300px;
+    left: 300px;
+}
+
+</style>
+</head>
+
+
+<body>
+<canvas id="grid" height="700" width="1000"></canvas>
+<div id="elem0" class="elems"></div>
+<div id="elem1" class="elems"></div>
+<div id="elem2" class="elems"></div>
+<div id="elem3" class="elems"/></div>
+<div id="elem4" class="elems"/></div>
+<div id="elem5" class="elems"/></div>
+<div id="elem6" class="elems"/></div>
+<div id="elem7" class="elems"/></div>
+<div id="elem8" class="elems"/></div>
+
+
+<script>
+setGrid();  // create background grid
+
+// element constructor
+class Elem {
+  constructor(dom, color, y, x, speed) {
+      this.dom = dom;
+      this.color = color;
+      this.y = y;
+      this.x = x;
+      this.speed = speed;
+  }
+}
+
+// create list of element objects with values
+var elemList = [];
+    elemList[0] = new Elem(document.getElementById("elem0"), "#000000", 0, 0, 0);
+    elemList[1] = new Elem(document.getElementById("elem1"), "#330000", 0, -200, 1);
+    elemList[2] = new Elem(document.getElementById("elem2"), "#666600", 0, 300, 2);
+    elemList[3] = new Elem(document.getElementById("elem3"), "#999999", -300, 0, 3);
+    elemList[4] = new Elem(document.getElementById("elem4"), "#ff0000", 200, 0, 4);
+    elemList[5] = new Elem(document.getElementById("elem5"), "#ff6600", -79, -193, 5);
+    elemList[6] = new Elem(document.getElementById("elem6"), "#ff9999", -79, 193, 10);
+    elemList[7] = new Elem(document.getElementById("elem7"), "#006666", 193, -79, 15);
+    elemList[8] = new Elem(document.getElementById("elem8"), "#00ffff", 193, 79, 20);
+
+// set element background and run animations
+for (i = 0; i < 9; i++) {
+    elemList[i].dom.style.backgroundColor = elemList[i].color;
+    animate(elemList[i].dom, elemList[i].y, elemList[i].x, elemList[i].speed);
+}
+
+// wait 5 seconds for animations to finish,
+// then report each element's final position
+setTimeout(report, 5000);
+function report() {
+    for (i = 0; i < 9; i++) {
+        console.log("elem" + i + " y=" + elemList[i].dom.style.top + ", x=" + elemList[i].dom.style.left);
+    }
+}
+
+
+// draw grid lines every 100 pixels
+function setGrid() {
+    var grid = document.getElementById("grid");
+    var ctx = grid.getContext("2d");
+    var gridY = document.getElementById("grid").height;
+    var gridX = document.getElementById("grid").width;
+
+    // horizontal lines
+    for (y = 0; y <= gridY; y += 100) {
+            ctx.fillStyle = "rgba(0, 0, 0, 1)";
+            ctx.fillRect(0, y, gridX, 1);
+        }
+
+    // vertical lines
+    for (x = 0; x <= gridX; x += 100) {
+            ctx.fillStyle = "rgba(0, 0, 0, 1)";
+            ctx.fillRect(x, 0, 1, gridY);
+    }
+}
+
+</script>
+</body>
+</html>
